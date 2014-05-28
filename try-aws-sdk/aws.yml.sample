@@ -1,0 +1,4 @@
+access_key_id: youraccesskeyid
+secret_access_key: yoursecretaccesskey
+s3_endpoint: s3-ap-northeast-1.amazonaws.com
+elastic_transcoder_endpoint: elastictranscoder.ap-northeast-1.amazonaws.com
