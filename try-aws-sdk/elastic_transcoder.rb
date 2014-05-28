@@ -71,13 +71,18 @@ response = transcoder.create_job(
 #     :request_id => "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 # }
 
-while %w(Submitted Progressing).include?(response[:job][:status])
-  if response[:job][:status] == 'Error' # Output Keyがすでに存在するなどエラーが発生したとき
-    raise response[:job][:output][:status_detail]
-  end
-  sleep 10
-  response = transcoder.read_job(id: response[:job][:id])
+while true
   puts response[:job][:status]
+  case response[:job][:status]
+    when  'Submitted', 'Progressing'
+      sleep 10
+      response = transcoder.read_job(id: response[:job][:id])
+      next
+    when 'Error'
+      raise response[:job][:output][:status_detail]
+    else
+      break
+  end
 end
 
 pp response
